@@ -1,1 +1,37 @@
-<p>book-list works!</p>
+<div class='card'>
+  <div class='card-body'>
+    <div class='table-responsive'>
+      <table class='table'>
+        <thead>
+          <tr>
+            <th>id</th>
+            <th>title</th>
+            <th>isbn13</th>
+            <th>number of pages</th>
+            <th>publication date</th>
+            <th>publisher</th>
+            <th>language</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor='let book of filteredBooks'>
+            <td>{{ book.book_id }}</td>
+            <td>{{ book.title }}</td>
+            <td>{{ book.isbn13 }}</td>
+            <td>{{ book.num_pages }}</td>
+            <td>{{ book.publication_date }}</td>
+            <td>{{ book.publisher.publisher_name }}</td>
+            <td>{{ book.language.language_code }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- <table mat-table [dataSource]="filteredBooks">
+
+</table> -->
+
+<!-- <bs-paginator [totalItems]="totalItems" [pageSize]="pageSize" (pageChanged)="onPageChanged($event)">
+</bs-paginator> -->
