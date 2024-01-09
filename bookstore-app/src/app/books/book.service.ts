@@ -25,7 +25,15 @@ export class BookService {
     return this.http.get<IBook[]>(this.bookUrl);
   }
 
-  // page(request: PageRequest<IBook>, query: BookQuery): Observable<Page<IBook>> {
+  getBook(id: number): Observable<IBook | undefined> {
+    return this.getBooks().pipe(
+      map((books: IBook[]) => books.find(book => book.book_id === id))     
+    );
+  }
 
-  // }
+  /*
+  page(request: PageRequest<IBook>, query: BookQuery): Observable<Page<IBook>> {
+
+  }
+  */
 }

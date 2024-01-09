@@ -1,18 +1,32 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { BookListComponent } from './book-list/book-list.component';
-import { FormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
-import { PaginatorComponent } from '../shared/paginator.component';
-
+import { LanguageSelectionComponent } from './language-selection.component';
+import { RouterModule } from '@angular/router';
+import { BookDetailsComponent } from './book-details/book-details.component';
 
 
 @NgModule({
   declarations: [
-    BookListComponent],
-  imports: [
-    CommonModule, SharedModule
+    BookListComponent,
+    LanguageSelectionComponent,
+    BookDetailsComponent
   ],
-  exports: [BookListComponent]
+  imports: [
+    RouterModule.forChild([
+      {path: 'books', component: BookListComponent},
+      {
+        path: 'books/:id',
+        component: BookDetailsComponent
+        // canActivate
+      }
+    ]),
+    SharedModule
+  ],
+  exports: [
+    BookListComponent,
+    LanguageSelectionComponent,
+    BookDetailsComponent
+  ]
 })
 export class BookModule { }

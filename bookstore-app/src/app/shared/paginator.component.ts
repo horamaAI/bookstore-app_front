@@ -4,7 +4,6 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 @Component({
   selector: 'bs-paginator',
   // standalone: true,
-  // imports: [SharedModule],
   templateUrl: './paginator.component.html',
   styleUrl: './paginator.component.css'
 })

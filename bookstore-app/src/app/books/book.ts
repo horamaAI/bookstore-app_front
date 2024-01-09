@@ -5,6 +5,7 @@ export interface IBook {
     book_id: number,
     title: string,
     isbn13: string,
+    description: string,
     num_pages: number,
     publication_date: Date,
     publisher: IPublisher,

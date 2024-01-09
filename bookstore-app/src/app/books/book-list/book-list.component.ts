@@ -1,11 +1,11 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild, computed, signal } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild, computed, signal } from '@angular/core';
+import { Observable, Subscription, catchError, combineLatest, forkJoin, of, take } from 'rxjs';
 import { BookService } from '../book.service';
 import { IBook } from '../book';
-import { NgIf, NgFor } from "@angular/common";
-import { FormsModule } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { ILanguage } from '../../languages/language';
+import { LanguageService } from '../../languages/language.service';
 
 @Component({
   selector: 'bs-book-list',
@@ -13,30 +13,69 @@ import { MatPaginator } from '@angular/material/paginator';
   templateUrl: './book-list.component.html',
   styleUrl: './book-list.component.css'
 })
-export class BookListComponent implements OnInit, OnDestroy {
+export class BookListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   errorMessage = '';
   books: IBook[] = [];
   // listFilter = signal('');
   // filteredBooks = computed(() => this.filterByLanguage(this.listFilter()));
   filteredBooks: IBook[] = [];
+  languages: ILanguage[] = [];
   sub!: Subscription;
+  subLang!: Subscription;
   displayedColumns: string[] = ['Book id', 'Title', 'ISBN', 'Number of pages', 'Publication date', 'Publisher', 'Language'];
   dataSource = new MatTableDataSource<IBook>();
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private bookService: BookService) {}
+  constructor(private bookService: BookService, private languageService: LanguageService) {}
+
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+  }
 
   ngOnInit(): void {
-    // throw new Error('Method not implemented.');
+    // this.sub = this.bookService.getBooks().pipe(
+    //   take(30)
+
     this.sub = this.bookService.getBooks().subscribe({
       next: books => {
         this.books = books;
         this.filteredBooks = this.books;
+        this.dataSource.data = books;
+        // this.dataSource.paginator = this.paginator;
       },
       error: err => this.errorMessage = err
     });
+    
+    this.subLang = this.languageService.getSelectedLanguages().subscribe({
+      next: languages$ => {
+        this.languages = languages$;
+        // this.filteredBooks = this.books;
+        // this.dataSource = new MatTableDataSource(books);
+        // this.dataSource.paginator = this.paginator;
+      },
+      error: err => this.errorMessage = err
+    }));
+
+    // forkJoin([
+    //   // this.bookService.getBooks().pipe(
+    //   //   catchError(e => of('book retrieval issue'))
+    //   // ),
+    //   // this.languageService.getLanguages().pipe(
+    //   //   catchError(e => of('language retrieval issue'))
+    //   // )
+    //   this.bookService.getBooks(),
+    //   this.languageService.getLanguages()
+    // ]).subscribe(
+    //   ([books$, languages$]) => {
+    //     this.books = books$;
+    //     this.filteredBooks = books$;
+    //     this.dataSource = new MatTableDataSource(books$);
+    //     this.languages = languages$;
+    //     console.log(this.languages);
+    //     // this.dataSource.paginator = this.paginator;
+    //   });
   }
   ngOnDestroy(): void {
     // throw new Error('Method not implemented.');
