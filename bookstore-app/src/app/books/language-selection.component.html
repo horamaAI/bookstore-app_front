@@ -1,10 +1,20 @@
 <mat-form-field *ngIf="languages">
-    <mat-label>Filter by language</mat-label>
-    <mat-select [formControl]="languagesSelected" multiple>
-        @for (language of languages; track language) {
-            <mat-option [value]="language.language_id">
-                {{language.language_name}}
-            </mat-option>
-        }
-    </mat-select>
+  <mat-label>Filter by language</mat-label>
+  <mat-select [(ngModel)]="languagesSelected" multiple>
+    @for (language of languages; track language) {
+    <mat-option [value]="language.language_id">
+      {{ language.language_name }}
+    </mat-option>
+    }
+  </mat-select>
 </mat-form-field>
+<!-- <tr *ngFor='let product of languagesSelected.getRawValue'>
+    <td>
+      <img *ngIf='showImage'
+           [src]='product.imageUrl'
+           [title]='product.productName'
+           [style.width.px]='imageWidth'
+           [style.margin.px]='imageMargin'>
+    </td>
+    <td> -->
+<!-- <h3>{{ languagesSelected.get("language_name") }}</h3> -->

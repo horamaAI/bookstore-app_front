@@ -8,18 +8,22 @@ import { ActivatedRoute, Router } from '@angular/router';
   // standalone: true,
   // imports: [],
   templateUrl: './book-details.component.html',
-  styleUrl: './book-details.component.css'
+  styleUrl: './book-details.component.css',
 })
 export class BookDetailsComponent implements OnInit {
   pageTitle = 'Book detail';
   errorMessage = '';
   book: IBook | undefined;
 
-  constructor(private route: ActivatedRoute, private router: Router, private bookService: BookService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private bookService: BookService
+  ) {}
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    console.log("redirect to id:", id)
+    console.log('redirect to id:', id);
     if (id) {
       this.getBook(id);
     }
@@ -27,12 +31,12 @@ export class BookDetailsComponent implements OnInit {
 
   getBook(id: number): void {
     this.bookService.getBook(id).subscribe({
-      next: book => {
-        console.log("fetch content: ", book);
+      next: (book) => {
+        console.log('fetch content: ', book);
         this.book = book;
       },
-      error: err => this.errorMessage = err
-    })
+      error: (err) => (this.errorMessage = err),
+    });
   }
 
   onBack(): void {
