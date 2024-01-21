@@ -36,61 +36,69 @@
 <!-- <bs-paginator [totalItems]="totalItems" [pageSize]="pageSize" (pageChanged)="onPageChanged($event)">
 </bs-paginator> -->
 
+<div class="card">
+  <div class="card-header">check 12: {{ languageIds }}</div>
+  <div class="mat-elevation-z8">
+    <td>
+      <bs-language-selection></bs-language-selection>
+    </td>
 
-<div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource">
+      <!-- displayedColumns: string[] = ['Book id', 'Title', 'ISBN', 'Number of pages', 'Publication date', 'Publisher', 'Language']; -->
+      <ng-container matColumnDef="Book id">
+        <th mat-header-cell *matHeaderCellDef>Book Id</th>
+        <td mat-cell *matCellDef="let element">{{ element.book_id }}</td>
+      </ng-container>
 
-  <td>
-    <bs-language-selection></bs-language-selection>
-  </td>
+      <ng-container matColumnDef="Title">
+        <th mat-header-cell *matHeaderCellDef>Title</th>
+        <td mat-cell *matCellDef="let element">
+          <a [routerLink]="['/books', element.book_id]">
+            {{ element.title }}
+          </a>
+        </td>
+      </ng-container>
 
-  <table mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="ISBN">
+        <th mat-header-cell *matHeaderCellDef>ISBN</th>
+        <td mat-cell *matCellDef="let element">{{ element.isbn13 }}</td>
+      </ng-container>
 
-    <!-- displayedColumns: string[] = ['Book id', 'Title', 'ISBN', 'Number of pages', 'Publication date', 'Publisher', 'Language']; -->
-    <ng-container matColumnDef="Book id">
-      <th mat-header-cell *matHeaderCellDef> Book Id </th>
-      <td mat-cell *matCellDef="let element"> {{element.book_id}} </td>
-    </ng-container>
+      <ng-container matColumnDef="Number of pages">
+        <th mat-header-cell *matHeaderCellDef>Number of pages</th>
+        <td mat-cell *matCellDef="let element">{{ element.num_pages }}</td>
+      </ng-container>
 
-    <ng-container matColumnDef="Title">
-      <th mat-header-cell *matHeaderCellDef> Title </th>
-      <td mat-cell *matCellDef="let element">
-        <a [routerLink]="['/books', element.book_id]">
-          {{element.title}}
-        </a>
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="Publication date">
+        <th mat-header-cell *matHeaderCellDef>Publication date</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.publication_date }}
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="ISBN">
-      <th mat-header-cell *matHeaderCellDef> ISBN </th>
-      <td mat-cell *matCellDef="let element"> {{element.isbn13}} </td>
-    </ng-container>
+      <ng-container matColumnDef="Publisher">
+        <th mat-header-cell *matHeaderCellDef>Publisher</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.publisher.publisher_name }}
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="Number of pages">
-      <th mat-header-cell *matHeaderCellDef> Number of pages </th>
-      <td mat-cell *matCellDef="let element"> {{element.num_pages}} </td>
-    </ng-container>
+      <ng-container matColumnDef="Language">
+        <th mat-header-cell *matHeaderCellDef>Language</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.language.language_code }}
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="Publication date">
-      <th mat-header-cell *matHeaderCellDef> Publication date </th>
-      <td mat-cell *matCellDef="let element"> {{element.publication_date}} </td>
-    </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
 
-    <ng-container matColumnDef="Publisher">
-      <th mat-header-cell *matHeaderCellDef> Publisher </th>
-      <td mat-cell *matCellDef="let element"> {{element.publisher.publisher_name}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="Language">
-      <th mat-header-cell *matHeaderCellDef> Language </th>
-      <td mat-cell *matCellDef="let element"> {{element.language.language_code}} </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
-
-  <mat-paginator [pageSizeOptions]="[100, 200, 300]"
-                 showFirstLastButtons
-                 aria-label="Select page of books library">
-  </mat-paginator>
+    <mat-paginator
+      [pageSizeOptions]="[100, 200, 300]"
+      showFirstLastButtons
+      aria-label="Select page of books library"
+    >
+    </mat-paginator>
+  </div>
 </div>

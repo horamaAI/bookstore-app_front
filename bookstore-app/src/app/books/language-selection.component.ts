@@ -8,7 +8,7 @@ import {
 import { ILanguage } from '../languages/language';
 import { LanguageService } from '../languages/language.service';
 import { Subscription } from 'rxjs';
-import { FormControl } from '@angular/forms';
+import { FormArray, FormControl } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BookLanguageTransactionsService } from './book-language-transactions.service';
 
@@ -20,10 +20,11 @@ import { BookLanguageTransactionsService } from './book-language-transactions.se
   styleUrl: './language-selection.component.css',
 })
 export class LanguageSelectionComponent implements OnInit, OnDestroy {
-  languagesSelected = new FormControl();
+  languagesSelected: number[] = [];
   languages: ILanguage[] = [];
   // @Output() selectionChanged = new EventEmitter<ILanguage[]>();
   sub!: Subscription;
+  // subForm!: Subscription;
 
   constructor(
     private languageService: LanguageService,
@@ -34,16 +35,35 @@ export class LanguageSelectionComponent implements OnInit, OnDestroy {
     this.sub = this.languageService.getLanguages().subscribe({
       next: (languages) => {
         this.languages = languages;
-        // console.log('Here is the content', this.languages);
+        console.log('types of: languages: ', typeof this.languages);
+        console.log('types of: languages in input: ', typeof languages);
+        // console.log(
+        //   'types of: languagesSelected: ',
+        //   typeof this.languagesSelected
+        // );
       },
     });
+
+    // console.log('check 123 test: ');
+
+    // this.subForm = this.languagesSelected.valueChanges.subscribe((data) => {
+    //   console.log('check 123: ', data);
+    // });
+
+    console.log('end check 123 test: ');
+    this.bookTransactionService.setSelectedLanguages(this.languagesSelected);
   }
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
   }
 
-  onSelectionChange() {
+  // onSelectionChange() {
+  //   this.bookTransactionService.setSelectedLanguages(this.languagesSelected);
+  // }
+
+  totoFunc(eventually: any) {
+    console.log('hello world: ', eventually);
     this.bookTransactionService.setSelectedLanguages(this.languagesSelected);
   }
 }

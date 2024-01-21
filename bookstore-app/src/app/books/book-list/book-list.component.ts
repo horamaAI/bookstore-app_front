@@ -37,7 +37,7 @@ export class BookListComponent implements OnInit, OnDestroy, AfterViewInit {
   // listFilter = signal('');
   // filteredBooks = computed(() => this.filterByLanguage(this.listFilter()));
   filteredBooks: IBook[] = [];
-  languages: ILanguage[] = [];
+  languageIds: number[] = [];
   sub!: Subscription;
   subLang!: Subscription;
   displayedColumns: string[] = [
@@ -80,12 +80,12 @@ export class BookListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subLang = this.languageTransactionService
       .getSelectedLanguages()
       .subscribe({
-        next: (languages$) => {
-          this.languages = languages$;
+        next: (languagesIds$) => {
+          console.log('check selected values: |', this.languageIds, '|');
+          this.languageIds = languagesIds$;
           // this.filteredBooks = this.books;
-          // this.dataSource = new MatTableDataSource(books);
+          this.dataSource.data = this.filterByLanguage(this.languageIds);
           // this.dataSource.paginator = this.paginator;
-          console.log('check selected values: ', this.languages);
         },
         error: (err) => (this.errorMessage = err),
       });
@@ -96,8 +96,10 @@ export class BookListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subLang.unsubscribe();
   }
 
-  filterByLanguage(langId: number): IBook[] {
-    var res = this.books.filter((book) => book.language.language_id === langId);
+  filterByLanguage(langIds: number[]): IBook[] {
+    var res = this.books.filter((book) =>
+      langIds.includes(book.language.language_id)
+    );
     console.log('Testing languages:', JSON.stringify(res));
     return res;
   }

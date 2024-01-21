@@ -7,13 +7,17 @@ import { FormControl } from '@angular/forms';
   providedIn: 'root',
 })
 export class BookLanguageTransactionsService {
-  private languages$ = new BehaviorSubject<FormControl>({} as FormControl);
+  private languages$ = new BehaviorSubject<number[]>([]);
   selectedLanguages$ = this.languages$.asObservable();
+  // languagesSelected = new FormControl<ILanguage[]>([]);
 
   constructor() {}
 
-  setSelectedLanguages(languages: FormControl) {
+  setSelectedLanguages(languages: number[]) {
+    console.log('value set');
     this.languages$.next(languages);
+    // this.languagesSelected = languages;
+    // this.languages$.next(languages.valueChanges);
     // this.languages$.next(languages);
     // languages.valueChanges
     //   .pipe(
@@ -31,7 +35,9 @@ export class BookLanguageTransactionsService {
     console.log('hello world');
   }
 
-  getSelectedLanguages(): Observable<ILanguage[]> {
-    return new Observable<ILanguage[]>();
+  getSelectedLanguages(): Observable<number[]> {
+    // return new Observable<ILanguage[]>();
+    console.log('value get');
+    return this.selectedLanguages$;
   }
 }

@@ -1,6 +1,10 @@
 <mat-form-field *ngIf="languages">
   <mat-label>Filter by language</mat-label>
-  <mat-select [(ngModel)]="languagesSelected" multiple>
+  <mat-select
+    [(ngModel)]="languagesSelected"
+    (selectionChange)="totoFunc($event)"
+    multiple
+  >
     @for (language of languages; track language) {
     <mat-option [value]="language.language_id">
       {{ language.language_name }}
@@ -17,4 +21,4 @@
            [style.margin.px]='imageMargin'>
     </td>
     <td> -->
-<!-- <h3>{{ languagesSelected.get("language_name") }}</h3> -->
+<h3>{{ languagesSelected }}</h3>
